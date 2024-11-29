@@ -1,14 +1,14 @@
-package com.github.lukas2o11.stats.database.repository;
+package com.github.lukas2o11.stats.repository;
 
 import com.github.lukas2o11.stats.database.MySQL;
 import com.github.lukas2o11.stats.database.entity.DefaultStats;
 import com.github.lukas2o11.stats.database.entity.Stats;
-import com.github.lukas2o11.stats.database.models.stat.ImmutableStat;
-import com.github.lukas2o11.stats.database.models.stat.Stat;
-import com.github.lukas2o11.stats.database.models.stat.StatType;
-import com.github.lukas2o11.stats.database.models.top10.DefaultTopTenList;
-import com.github.lukas2o11.stats.database.models.top10.TopTenList;
-import com.github.lukas2o11.stats.database.models.top10.TopTenListEntry;
+import com.github.lukas2o11.stats.models.stat.ImmutableStat;
+import com.github.lukas2o11.stats.models.stat.Stat;
+import com.github.lukas2o11.stats.models.stat.StatType;
+import com.github.lukas2o11.stats.models.top10.DefaultTopTenList;
+import com.github.lukas2o11.stats.models.top10.TopTenList;
+import com.github.lukas2o11.stats.models.top10.TopTenListEntry;
 import com.github.lukas2o11.stats.database.result.DBResult;
 import com.github.lukas2o11.stats.database.result.DBRow;
 import lombok.RequiredArgsConstructor;

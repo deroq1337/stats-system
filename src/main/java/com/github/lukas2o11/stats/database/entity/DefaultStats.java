@@ -1,6 +1,6 @@
 package com.github.lukas2o11.stats.database.entity;
 
-import com.github.lukas2o11.stats.database.models.stat.ImmutableStat;
+import com.github.lukas2o11.stats.models.stat.ImmutableStat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

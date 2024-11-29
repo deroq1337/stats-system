@@ -1,4 +1,4 @@
-package com.github.lukas2o11.stats.database.models.top10;
+package com.github.lukas2o11.stats.models.top10;
 
 import org.jetbrains.annotations.NotNull;
 

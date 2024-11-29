@@ -1,4 +1,4 @@
-package com.github.lukas2o11.stats.database.models.stat;
+package com.github.lukas2o11.stats.models.stat;
 
 import com.github.lukas2o11.stats.exceptions.StatNotFoundException;
 import org.jetbrains.annotations.NotNull;

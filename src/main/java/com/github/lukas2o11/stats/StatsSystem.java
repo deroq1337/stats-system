@@ -2,12 +2,9 @@ package com.github.lukas2o11.stats;
 
 import com.github.lukas2o11.stats.database.DefaultMySQL;
 import com.github.lukas2o11.stats.database.MySQL;
-import com.github.lukas2o11.stats.database.repository.DefaultStatsRepository;
-import com.github.lukas2o11.stats.database.repository.StatsRepository;
+import com.github.lukas2o11.stats.repository.DefaultStatsRepository;
+import com.github.lukas2o11.stats.repository.StatsRepository;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Random;
-import java.util.UUID;
 
 public class StatsSystem extends JavaPlugin {
 

@@ -1,7 +1,7 @@
-package com.github.lukas2o11.stats.database.repository;
+package com.github.lukas2o11.stats.repository;
 
 import com.github.lukas2o11.stats.database.entity.Stats;
-import com.github.lukas2o11.stats.database.models.top10.TopTenList;
+import com.github.lukas2o11.stats.models.top10.TopTenList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
