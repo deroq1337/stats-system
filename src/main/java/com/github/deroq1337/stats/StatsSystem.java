@@ -1,11 +1,16 @@
 package com.github.deroq1337.stats;
 
+import com.github.deroq1337.stats.commands.AlltimeStatsCommand;
+import com.github.deroq1337.stats.commands.DailyStatsCommand;
+import com.github.deroq1337.stats.commands.MonthlyStatsCommand;
 import com.github.deroq1337.stats.database.DefaultMySQL;
 import com.github.deroq1337.stats.database.MySQL;
 import com.github.deroq1337.stats.repository.DefaultStatsRepository;
 import com.github.deroq1337.stats.repository.StatsRepository;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class StatsSystem extends JavaPlugin {
 
     private MySQL mySQL;
@@ -18,6 +23,10 @@ public class StatsSystem extends JavaPlugin {
 
         this.repository = new DefaultStatsRepository(mySQL);
         createTablesAndIndices();
+
+        new AlltimeStatsCommand(this);
+        new MonthlyStatsCommand(this);
+        new DailyStatsCommand(this);
     }
 
     @Override

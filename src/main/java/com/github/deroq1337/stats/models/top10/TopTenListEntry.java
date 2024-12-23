@@ -11,7 +11,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class TopTenListEntry {
 
-    private @NotNull final UUID player;
+    private final @NotNull UUID player;
     private final int rank;
     private final long value;
 }

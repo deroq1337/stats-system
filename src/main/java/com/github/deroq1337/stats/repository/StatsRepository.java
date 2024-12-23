@@ -1,6 +1,6 @@
 package com.github.deroq1337.stats.repository;
 
-import com.github.deroq1337.stats.database.entity.Stats;
+import com.github.deroq1337.stats.entity.Stats;
 import com.github.deroq1337.stats.models.top10.TopTenList;
 import org.jetbrains.annotations.NotNull;
 

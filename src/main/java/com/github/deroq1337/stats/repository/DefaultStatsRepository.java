@@ -1,8 +1,8 @@
 package com.github.deroq1337.stats.repository;
 
 import com.github.deroq1337.stats.database.MySQL;
-import com.github.deroq1337.stats.database.entity.DefaultStats;
-import com.github.deroq1337.stats.database.entity.Stats;
+import com.github.deroq1337.stats.entity.DefaultStats;
+import com.github.deroq1337.stats.entity.Stats;
 import com.github.deroq1337.stats.models.stat.ImmutableStat;
 import com.github.deroq1337.stats.models.stat.Stat;
 import com.github.deroq1337.stats.models.stat.StatType;
@@ -48,7 +48,7 @@ public class DefaultStatsRepository implements StatsRepository {
             "ORDER BY total_value DESC " +
             "LIMIT 10;";
 
-    private @NotNull final MySQL mySQL;
+    private final @NotNull MySQL mySQL;
 
     @Override
     public @NotNull CompletableFuture<? extends Stats> getStatsByPlayer(@NotNull UUID player) {

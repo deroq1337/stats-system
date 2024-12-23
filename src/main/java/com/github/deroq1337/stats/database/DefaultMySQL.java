@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DefaultMySQL implements MySQL {
 
-    private final HikariConfig config;
+    private final @NotNull HikariConfig config;
 
     public DefaultMySQL() {
         this.config = new HikariConfig();

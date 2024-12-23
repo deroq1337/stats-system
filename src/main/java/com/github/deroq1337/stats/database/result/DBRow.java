@@ -11,7 +11,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class DBRow {
 
-    private @NotNull final Map<String, Object> columns;
+    private final @NotNull Map<String, Object> columns;
 
     public @NotNull Set<String> getColumns() {
         return columns.keySet();

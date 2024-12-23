@@ -15,8 +15,7 @@ import java.util.Set;
 public class DefaultTopTenList implements TopTenList {
 
     private final int interval;
-    private @NotNull
-    final Set<TopTenListEntry> entries;
+    private final @NotNull Set<TopTenListEntry> entries;
 
     @Override
     public void print() {
