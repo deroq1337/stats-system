@@ -1,4 +1,4 @@
-package com.github.lukas2o11.stats.exceptions;
+package com.github.deroq1337.stats.exceptions;
 
 public class StatNotFoundException extends RuntimeException {
 

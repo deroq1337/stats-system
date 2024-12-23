@@ -1,10 +1,11 @@
-package com.github.lukas2o11.stats.database.entity;
+package com.github.deroq1337.stats.database.entity;
 
-import com.github.lukas2o11.stats.models.stat.ImmutableStat;
+import com.github.deroq1337.stats.models.stat.ImmutableStat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,10 +16,10 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class DefaultStats implements Stats {
 
-    private final UUID player;
+    private @NotNull final UUID player;
     private final int interval;
     private final long rank;
-    private final Set<ImmutableStat> stats;
+    private @NotNull final Set<ImmutableStat> stats;
 
     @Override
     public void print() {
@@ -26,6 +27,7 @@ public class DefaultStats implements Stats {
         if (interval > 0 && interval <= 30) {
             headline += " (" + interval + "d)";
         }
+
         System.out.println(headline);
         System.out.println("Ranking: #" + rank);
         stats.forEach(stat -> System.out.println(stat.localeKey() + ": " + stat.value()));

@@ -1,9 +1,9 @@
-package com.github.lukas2o11.stats;
+package com.github.deroq1337.stats;
 
-import com.github.lukas2o11.stats.database.DefaultMySQL;
-import com.github.lukas2o11.stats.database.MySQL;
-import com.github.lukas2o11.stats.repository.DefaultStatsRepository;
-import com.github.lukas2o11.stats.repository.StatsRepository;
+import com.github.deroq1337.stats.database.DefaultMySQL;
+import com.github.deroq1337.stats.database.MySQL;
+import com.github.deroq1337.stats.repository.DefaultStatsRepository;
+import com.github.deroq1337.stats.repository.StatsRepository;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class StatsSystem extends JavaPlugin {

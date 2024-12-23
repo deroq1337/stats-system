@@ -1,4 +1,4 @@
-package com.github.lukas2o11.stats.database.result;
+package com.github.deroq1337.stats.database.result;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class DBRow {
 
-    private final Map<String, Object> columns;
+    private @NotNull final Map<String, Object> columns;
 
     public @NotNull Set<String> getColumns() {
         return columns.keySet();

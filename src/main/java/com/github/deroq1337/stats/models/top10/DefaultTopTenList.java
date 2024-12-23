@@ -1,9 +1,10 @@
-package com.github.lukas2o11.stats.models.top10;
+package com.github.deroq1337.stats.models.top10;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -14,7 +15,8 @@ import java.util.Set;
 public class DefaultTopTenList implements TopTenList {
 
     private final int interval;
-    private final Set<TopTenListEntry> entries;
+    private @NotNull
+    final Set<TopTenListEntry> entries;
 
     @Override
     public void print() {

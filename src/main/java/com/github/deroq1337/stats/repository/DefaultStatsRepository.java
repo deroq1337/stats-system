@@ -1,16 +1,16 @@
-package com.github.lukas2o11.stats.repository;
+package com.github.deroq1337.stats.repository;
 
-import com.github.lukas2o11.stats.database.MySQL;
-import com.github.lukas2o11.stats.database.entity.DefaultStats;
-import com.github.lukas2o11.stats.database.entity.Stats;
-import com.github.lukas2o11.stats.models.stat.ImmutableStat;
-import com.github.lukas2o11.stats.models.stat.Stat;
-import com.github.lukas2o11.stats.models.stat.StatType;
-import com.github.lukas2o11.stats.models.top10.DefaultTopTenList;
-import com.github.lukas2o11.stats.models.top10.TopTenList;
-import com.github.lukas2o11.stats.models.top10.TopTenListEntry;
-import com.github.lukas2o11.stats.database.result.DBResult;
-import com.github.lukas2o11.stats.database.result.DBRow;
+import com.github.deroq1337.stats.database.MySQL;
+import com.github.deroq1337.stats.database.entity.DefaultStats;
+import com.github.deroq1337.stats.database.entity.Stats;
+import com.github.deroq1337.stats.models.stat.ImmutableStat;
+import com.github.deroq1337.stats.models.stat.Stat;
+import com.github.deroq1337.stats.models.stat.StatType;
+import com.github.deroq1337.stats.models.top10.DefaultTopTenList;
+import com.github.deroq1337.stats.models.top10.TopTenList;
+import com.github.deroq1337.stats.models.top10.TopTenListEntry;
+import com.github.deroq1337.stats.database.result.DBResult;
+import com.github.deroq1337.stats.database.result.DBRow;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,12 +25,7 @@ public class DefaultStatsRepository implements StatsRepository {
     /* Too lazy to create config */
     private static final StatType RANK_SORT_BY = StatType.KILLS;
 
-    private static final String STATS_QUERY = "SELECT stats_users.player, stats_users.stat, stats_users.value, stats.locale_key " +
-            "FROM stats_users " +
-            "INNER JOIN stats ON stats.id = stats_users.stat " +
-            "WHERE stats_users.player = ? ";
-
-    private static final String STATS_INTERVAL_QUERY = "SELECT stats_users.player, stats_users.stat, stats_users.value, stats_users.timestamp, stats.locale_key " +
+    private static final String STATS_QUERY = "SELECT stats_users.player, stats_users.stat, stats_users.value, stats_users.timestamp, stats.locale_key " +
             "FROM stats_users " +
             "INNER JOIN stats ON stats.id = stats_users.stat " +
             "WHERE stats_users.player = ? " +
@@ -40,21 +35,9 @@ public class DefaultStatsRepository implements StatsRepository {
     private static final String RANK_QUERY = "SELECT COUNT(*) + 1 AS rank " +
             "FROM stats_users " +
             "WHERE stat = '" + RANK_SORT_BY + "' " +
-            "AND value > (SELECT SUM(value) FROM stats_users WHERE player = ? AND stat = '" + RANK_SORT_BY + "')";
-
-    private static final String RANK_INTERVAL_QUERY = "SELECT COUNT(*) + 1 AS rank " +
-            "FROM stats_users " +
-            "WHERE stat = '" + RANK_SORT_BY + "' " +
             "AND timestamp <= ? " +
             "AND timestamp > ? " +
             "AND value > (SELECT SUM(value) FROM stats_users WHERE player = ? AND stat = '" + RANK_SORT_BY + "')";
-
-    private static final String TOP_LIST_QUERY = "SELECT player, SUM(value) AS total_value " +
-            "FROM stats_users " +
-            "WHERE stat = '" + RANK_SORT_BY + "' " +
-            "GROUP BY player " +
-            "ORDER BY total_value DESC " +
-            "LIMIT 10;";
 
     private static final String TOP_LIST_INTERVAL_QUERY = "SELECT player, SUM(value) AS total_value " +
             "FROM stats_users " +
@@ -65,37 +48,25 @@ public class DefaultStatsRepository implements StatsRepository {
             "ORDER BY total_value DESC " +
             "LIMIT 10;";
 
-    private final MySQL mySQL;
+    private @NotNull final MySQL mySQL;
 
     @Override
     public @NotNull CompletableFuture<? extends Stats> getStatsByPlayer(@NotNull UUID player) {
-        return getStatsByPlayer(player, -1);
+        return getStatsByPlayer(player, Integer.MAX_VALUE);
     }
 
     @Override
     public @NotNull CompletableFuture<? extends Stats> getStatsByPlayer(@NotNull UUID player, int interval) {
-        CompletableFuture<DBResult> statsFuture;
-        CompletableFuture<Long> rankFuture;
-        if (interval > 0 && interval < 31) {
-            long now = System.currentTimeMillis();
-            long millis = now - ((long) interval * 24 * 60 * 60 * 1000);
+        long now = System.currentTimeMillis();
+        long millis = now - ((long) interval * 24 * 60 * 60 * 1000);
 
-            statsFuture = mySQL.query(STATS_INTERVAL_QUERY, player.toString(), now, millis);
-            rankFuture = mySQL.query(RANK_INTERVAL_QUERY, now, millis, player.toString()).thenApply(result -> {
-                if (result.getRows().isEmpty()) {
-                    return (long) -1;
-                }
-                return result.getRows().getFirst().getValue("rank", Long.class);
-            });
-        } else {
-            statsFuture = mySQL.query(STATS_QUERY, player.toString());
-            rankFuture = mySQL.query(RANK_QUERY, player.toString()).thenApply(result -> {
-                if (result.getRows().isEmpty()) {
-                    return (long) -1;
-                }
-                return result.getRows().getFirst().getValue("rank", Long.class);
-            });
-        }
+        CompletableFuture<DBResult> statsFuture = mySQL.query(STATS_QUERY, player.toString(), now, millis);
+        CompletableFuture<Long> rankFuture = mySQL.query(RANK_QUERY, now, millis, player.toString()).thenApply(result -> {
+            if (result.getRows().isEmpty()) {
+                return (long) -1;
+            }
+            return result.getRows().getFirst().getValue("rank", Long.class);
+        });
 
         return CompletableFuture.allOf(statsFuture, rankFuture).thenApplyAsync(v -> {
             DBResult statsResult = statsFuture.join();
@@ -118,22 +89,16 @@ public class DefaultStatsRepository implements StatsRepository {
     }
 
     @Override
-    public CompletableFuture<? extends TopTenList> getTopTenList() {
-        return getTopTenList(-1);
+    public @NotNull CompletableFuture<? extends TopTenList> getTopTenList() {
+        return getTopTenList(Integer.MAX_VALUE);
     }
 
     @Override
-    public CompletableFuture<? extends TopTenList> getTopTenList(int interval) {
-        CompletableFuture<DBResult> query;
-        if (interval > 0 && interval < 31) {
-            long now = System.currentTimeMillis();
-            long millis = now - ((long) interval * 24 * 60 * 60 * 1000);
-            query = mySQL.query(TOP_LIST_INTERVAL_QUERY, now, millis);
-        } else {
-            query = mySQL.query(TOP_LIST_QUERY);
-        }
+    public @NotNull CompletableFuture<? extends TopTenList> getTopTenList(int interval) {
+        long now = System.currentTimeMillis();
+        long millis = now - ((long) interval * 24 * 60 * 60 * 1000);
 
-        return query.thenApply(result -> {
+        return mySQL.query(TOP_LIST_INTERVAL_QUERY, now, millis).thenApply(result -> {
             Set<TopTenListEntry> entries = new LinkedHashSet<>();
             int rank = 1;
             for (DBRow row : result.getRows()) {

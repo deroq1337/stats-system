@@ -1,4 +1,4 @@
-package com.github.lukas2o11.stats.database.entity;
+package com.github.deroq1337.stats.database.entity;
 
 import org.jetbrains.annotations.NotNull;
 

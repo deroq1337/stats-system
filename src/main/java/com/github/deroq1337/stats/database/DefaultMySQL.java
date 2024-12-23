@@ -1,7 +1,7 @@
-package com.github.lukas2o11.stats.database;
+package com.github.deroq1337.stats.database;
 
-import com.github.lukas2o11.stats.database.result.DBResult;
-import com.github.lukas2o11.stats.database.result.DBRow;
+import com.github.deroq1337.stats.database.result.DBResult;
+import com.github.deroq1337.stats.database.result.DBRow;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +42,7 @@ public class DefaultMySQL implements MySQL {
     }
 
     @Override
-    public CompletableFuture<Void> update(@NotNull String sql, Object... params) {
+    public @NotNull CompletableFuture<Void> update(@NotNull String sql, Object... params) {
         return dataSource.map(ds -> CompletableFuture.runAsync(() -> {
             try (Connection connection = getConnection()) {
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -55,7 +55,7 @@ public class DefaultMySQL implements MySQL {
     }
 
     @Override
-    public CompletableFuture<DBResult> query(@NotNull String sql, Object... params) {
+    public @NotNull CompletableFuture<DBResult> query(@NotNull String sql, Object... params) {
         return dataSource.map(ds -> CompletableFuture.supplyAsync(() -> {
             try (Connection connection = getConnection()) {
                 PreparedStatement statement = connection.prepareStatement(sql);

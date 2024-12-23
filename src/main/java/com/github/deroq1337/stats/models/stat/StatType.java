@@ -1,6 +1,6 @@
-package com.github.lukas2o11.stats.models.stat;
+package com.github.deroq1337.stats.models.stat;
 
-import com.github.lukas2o11.stats.exceptions.StatNotFoundException;
+import com.github.deroq1337.stats.exceptions.StatNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;

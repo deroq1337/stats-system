@@ -1,6 +1,7 @@
-package com.github.lukas2o11.stats.models.top10;
+package com.github.deroq1337.stats.models.top10;
 
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class TopTenListEntry {
 
-    private final UUID player;
+    private @NotNull final UUID player;
     private final int rank;
     private final long value;
 }

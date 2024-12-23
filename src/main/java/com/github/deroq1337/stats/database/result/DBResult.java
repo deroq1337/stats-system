@@ -1,4 +1,4 @@
-package com.github.lukas2o11.stats.database.result;
+package com.github.deroq1337.stats.database.result;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
