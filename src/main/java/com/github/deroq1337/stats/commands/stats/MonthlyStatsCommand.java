@@ -17,7 +17,7 @@ public class MonthlyStatsCommand extends BaseStatsCommand {
 
     @Override
     public void handleCommand(@NotNull CommandSender commandSender, @NotNull UUID targetUuid, @NotNull String[] args) {
-        repository.getStatsByPlayer(targetUuid, MONTHLY_INTERVAL).thenAccept(stats -> {
+        statsManager.getStatsByPlayer(targetUuid, MONTHLY_INTERVAL).thenAccept(stats -> {
             Bukkit.getScheduler().runTask(plugin, () -> stats.print(commandSender));
         });
     }

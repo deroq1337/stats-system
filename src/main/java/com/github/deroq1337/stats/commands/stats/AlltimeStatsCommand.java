@@ -17,7 +17,7 @@ public class AlltimeStatsCommand extends BaseStatsCommand {
 
     @Override
     public void handleCommand(@NotNull CommandSender commandSender, @NotNull UUID targetUuid, @NotNull String[] args) {
-        repository.getStatsByPlayer(targetUuid, ALLTIME_INTERVAL).thenAccept(stats -> {
+        statsManager.getStatsByPlayer(targetUuid, ALLTIME_INTERVAL).thenAccept(stats -> {
             Bukkit.getScheduler().runTask(plugin, () -> stats.print(commandSender));
         });
     }

@@ -1,12 +1,10 @@
 package com.github.deroq1337.stats.repository;
 
 import com.github.deroq1337.stats.database.MySQL;
-import com.github.deroq1337.stats.entity.DefaultStats;
 import com.github.deroq1337.stats.entity.Stats;
 import com.github.deroq1337.stats.models.stat.ImmutableStat;
 import com.github.deroq1337.stats.models.stat.Stat;
 import com.github.deroq1337.stats.models.stat.StatType;
-import com.github.deroq1337.stats.models.top10.DefaultTopTenList;
 import com.github.deroq1337.stats.models.top10.TopTenList;
 import com.github.deroq1337.stats.models.top10.TopTenListEntry;
 import com.github.deroq1337.stats.database.result.DBResult;
@@ -19,7 +17,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 public class DefaultStatsRepository implements StatsRepository {
 
     /* Too lazy to create config */
@@ -50,13 +47,42 @@ public class DefaultStatsRepository implements StatsRepository {
 
     private final @NotNull MySQL mySQL;
 
+    public DefaultStatsRepository(@NotNull MySQL mySQL) {
+        this.mySQL = mySQL;
+        createTablesAndIndices();
+    }
+
+    private void createTablesAndIndices() {
+        mySQL.update("CREATE TABLE IF NOT EXISTS stats(" +
+                "id VARCHAR(32) NOT NULL," +
+                "locale_key VARCHAR(32) NOT NULL," +
+                "description VARCHAR(64)," +
+                "PRIMARY KEY(id)" +
+                ");").join();
+
+        mySQL.update("CREATE TABLE IF NOT EXISTS stats_users(" +
+                "id INT AUTO_INCREMENT NOT NULL," +
+                "player VARCHAR(36) NOT NULL," +
+                "stat VARCHAR(32) NOT NULL," +
+                "value INT NOT NULL," +
+                "timestamp BIGINT NOT NULL," +
+                "PRIMARY KEY(id)," +
+                "FOREIGN KEY(stat) REFERENCES stats(id)" +
+                ");").join();
+
+        mySQL.update("CREATE INDEX IF NOT EXISTS idx_stats_users_player_timestamp ON stats_users(player, timestamp);");
+        mySQL.update("CREATE INDEX IF NOT EXISTS idx_stats_users_stat ON stats_users(stat);");
+        mySQL.update("CREATE INDEX IF NOT EXISTS idx_stats_users_value ON stats_users(value);");
+        mySQL.update("CREATE INDEX IF NOT EXISTS idx_stats_users_value_timestamp ON stats_users(value);");
+    }
+
     @Override
-    public @NotNull CompletableFuture<? extends Stats> getStatsByPlayer(@NotNull UUID player) {
+    public @NotNull CompletableFuture<Stats> getStatsByPlayer(@NotNull UUID player) {
         return getStatsByPlayer(player, Integer.MAX_VALUE);
     }
 
     @Override
-    public @NotNull CompletableFuture<? extends Stats> getStatsByPlayer(@NotNull UUID player, int interval) {
+    public @NotNull CompletableFuture<Stats> getStatsByPlayer(@NotNull UUID player, int interval) {
         long now = System.currentTimeMillis();
         long millis = now - ((long) interval * 24 * 60 * 60 * 1000);
 
@@ -84,17 +110,17 @@ public class DefaultStatsRepository implements StatsRepository {
             Set<ImmutableStat> statSet = statMap.values().stream()
                     .map(stat -> new ImmutableStat(stat.getType(), stat.getLocaleKey(), stat.getValue()))
                     .collect(Collectors.toSet());
-            return new DefaultStats(player, interval, rankFuture.join(), statSet);
+            return new Stats(player, interval, rankFuture.join(), statSet);
         });
     }
 
     @Override
-    public @NotNull CompletableFuture<? extends TopTenList> getTopTenList() {
+    public @NotNull CompletableFuture<TopTenList> getTopTenList() {
         return getTopTenList(Integer.MAX_VALUE);
     }
 
     @Override
-    public @NotNull CompletableFuture<? extends TopTenList> getTopTenList(int interval) {
+    public @NotNull CompletableFuture<TopTenList> getTopTenList(int interval) {
         long now = System.currentTimeMillis();
         long millis = now - ((long) interval * 24 * 60 * 60 * 1000);
 
@@ -111,7 +137,7 @@ public class DefaultStatsRepository implements StatsRepository {
                 rank++;
             }
 
-            return new DefaultTopTenList(interval, entries);
+            return new TopTenList(interval, entries);
         }).exceptionally(throwable -> {
             System.err.println("Error query for top 10: " + throwable.getMessage());
             throw new RuntimeException(throwable);

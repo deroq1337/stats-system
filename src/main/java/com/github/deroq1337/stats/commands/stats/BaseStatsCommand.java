@@ -1,7 +1,7 @@
 package com.github.deroq1337.stats.commands.stats;
 
+import com.github.deroq1337.stats.StatsManager;
 import com.github.deroq1337.stats.StatsSystem;
-import com.github.deroq1337.stats.repository.StatsRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,11 +15,11 @@ import java.util.UUID;
 public abstract class BaseStatsCommand implements CommandExecutor {
 
     protected final @NotNull StatsSystem plugin;
-    protected final @NotNull StatsRepository repository;
+    protected final @NotNull StatsManager statsManager;
 
     public BaseStatsCommand(@NotNull StatsSystem plugin, @NotNull String name) {
         this.plugin = plugin;
-        this.repository = plugin.getRepository();
+        this.statsManager = plugin.getStatsManager();
 
         Optional.ofNullable(plugin.getCommand(name)).ifPresent(pluginCommand -> pluginCommand.setExecutor(this));
     }

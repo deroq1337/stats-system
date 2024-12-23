@@ -35,7 +35,7 @@ public class DailyStatsCommand extends BaseStatsCommand {
             }
         }
 
-        repository.getStatsByPlayer(targetUuid, interval).thenAccept(stats -> {
+        statsManager.getStatsByPlayer(targetUuid, interval).thenAccept(stats -> {
             Bukkit.getScheduler().runTask(plugin, () -> stats.print(commandSender));
         });
     }
