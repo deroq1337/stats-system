@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -18,8 +19,10 @@ public class DefaultTopTenList implements TopTenList {
     private final @NotNull Set<TopTenListEntry> entries;
 
     @Override
-    public void print() {
-        System.out.println("Top 10 (" + interval + "d)");
-        entries.forEach(entry -> System.out.println("#" + entry.getRank() + ": " + entry.getPlayer().toString() + " - " + entry.getValue() + " Kills"));
+    public void print(@NotNull CommandSender commandSender) {
+        StringBuilder builder = new StringBuilder("Top 10 (" + interval + "d)\n");
+        entries.forEach(entry -> builder.append("#").append(entry.getRank()).append(": ")
+                .append(entry.getPlayer().toString()).append(" - ").append(entry.getValue()).append(" Kills"));
+        commandSender.sendMessage(builder.toString());
     }
 }

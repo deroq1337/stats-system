@@ -1,4 +1,4 @@
-package com.github.deroq1337.stats.commands;
+package com.github.deroq1337.stats.commands.stats;
 
 import com.github.deroq1337.stats.StatsSystem;
 import com.github.deroq1337.stats.repository.StatsRepository;

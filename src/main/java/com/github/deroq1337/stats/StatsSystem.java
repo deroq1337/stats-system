@@ -1,8 +1,10 @@
 package com.github.deroq1337.stats;
 
-import com.github.deroq1337.stats.commands.AlltimeStatsCommand;
-import com.github.deroq1337.stats.commands.DailyStatsCommand;
-import com.github.deroq1337.stats.commands.MonthlyStatsCommand;
+import com.github.deroq1337.stats.commands.stats.AlltimeStatsCommand;
+import com.github.deroq1337.stats.commands.stats.DailyStatsCommand;
+import com.github.deroq1337.stats.commands.stats.MonthlyStatsCommand;
+import com.github.deroq1337.stats.commands.top.AlltimeTopCommand;
+import com.github.deroq1337.stats.commands.top.MonthlyTopCommand;
 import com.github.deroq1337.stats.database.DefaultMySQL;
 import com.github.deroq1337.stats.database.MySQL;
 import com.github.deroq1337.stats.repository.DefaultStatsRepository;
@@ -27,6 +29,8 @@ public class StatsSystem extends JavaPlugin {
         new AlltimeStatsCommand(this);
         new MonthlyStatsCommand(this);
         new DailyStatsCommand(this);
+        new AlltimeTopCommand(this);
+        new MonthlyTopCommand(this);
     }
 
     @Override
