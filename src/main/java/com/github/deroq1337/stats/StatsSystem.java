@@ -1,12 +1,14 @@
 package com.github.deroq1337.stats;
 
-import com.github.deroq1337.stats.commands.stats.AlltimeStatsCommand;
-import com.github.deroq1337.stats.commands.stats.DailyStatsCommand;
-import com.github.deroq1337.stats.commands.stats.MonthlyStatsCommand;
-import com.github.deroq1337.stats.commands.top.AlltimeTopCommand;
-import com.github.deroq1337.stats.commands.top.MonthlyTopCommand;
-import com.github.deroq1337.stats.database.DefaultMySQL;
-import com.github.deroq1337.stats.database.MySQL;
+import com.github.deroq1337.stats.data.DefaultStatsManager;
+import com.github.deroq1337.stats.data.StatsManager;
+import com.github.deroq1337.stats.data.commands.stats.AlltimeStatsCommand;
+import com.github.deroq1337.stats.data.commands.stats.DailyStatsCommand;
+import com.github.deroq1337.stats.data.commands.stats.MonthlyStatsCommand;
+import com.github.deroq1337.stats.data.commands.top.AlltimeTopCommand;
+import com.github.deroq1337.stats.data.commands.top.MonthlyTopCommand;
+import com.github.deroq1337.stats.data.database.DefaultMySQL;
+import com.github.deroq1337.stats.data.database.MySQL;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
